@@ -218,11 +218,12 @@ function StudiosLib:CreateWindow(title)
             BtnCorner.CornerRadius = UDim.new(1, 0)
             BtnCorner.Parent = Btn
 
+            local state = false
             Btn.MouseButton1Click:Connect(function()
-                TweenService:Create(Btn, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(0, 255, 0)}):Play()
-                task.wait(0.1)
-                TweenService:Create(Btn, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(0, 0, 0)}):Play()
-                callback()
+                state = not state
+                local color = state and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(0, 0, 0)
+                TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = color}):Play()
+                callback(state)
             end)
         end
 
@@ -319,7 +320,7 @@ function StudiosLib:CreateWindow(title)
 
             local SliderFill = Instance.new("Frame")
             SliderFill.Size = UDim2.new((default-min)/(max-min), 0, 1, 0)
-            SliderFill.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+            SliderFill.BackgroundColor3 = Color3.fromRGB(0, 0, 120) -- Azul Escuro
             SliderFill.BorderSizePixel = 0
             SliderFill.Parent = SliderBG
 
