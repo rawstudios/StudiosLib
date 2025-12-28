@@ -7,9 +7,8 @@ local Mouse = LocalPlayer:GetMouse()
 
 function StudiosLib:CreateWindow(title)
     -- Clean up old GUI
-    if game:GetService("CoreGui"):FindFirstChild("StudiosLib") then
-        game:GetService("CoreGui"):FindFirstChild("StudiosLib"):Destroy()
-    end
+    local old = game:GetService("CoreGui"):FindFirstChild("StudiosLib")
+    if old then old:Destroy() end
 
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Name = "StudiosLib"
@@ -28,7 +27,7 @@ function StudiosLib:CreateWindow(title)
     UICorner.CornerRadius = UDim.new(0, 6)
     UICorner.Parent = MainFrame
 
-    -- Header
+    -- Header (Created early to avoid NIL errors)
     local Header = Instance.new("Frame")
     Header.Name = "Header"
     Header.Size = UDim2.new(1, 0, 0, 30)
@@ -53,18 +52,23 @@ function StudiosLib:CreateWindow(title)
             dragging = true
             dragStart = input.Position
             startPos = MainFrame.Position
-            input.Changed:Connect(function()
+            
+            local connection
+            connection = input.Changed:Connect(function()
                 if input.UserInputState == Enum.UserInputState.End then
                     dragging = false
+                    if connection then connection:Disconnect() end
                 end
             end)
         end
     end)
+
     Header.InputChanged:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseMovement then
             dragInput = input
         end
     end)
+
     UserInputService.InputChanged:Connect(function(input)
         if input == dragInput and dragging then
             local delta = input.Position - dragStart
@@ -72,7 +76,7 @@ function StudiosLib:CreateWindow(title)
         end
     end)
 
-    -- Tab Selection
+    -- Tab Selection Area
     local TabBar = Instance.new("ScrollingFrame")
     TabBar.Name = "TabBar"
     TabBar.Size = UDim2.new(0, 100, 1, -85)
@@ -85,7 +89,7 @@ function StudiosLib:CreateWindow(title)
     TabListLayout.Padding = UDim.new(0, 5)
     TabListLayout.Parent = TabBar
 
-    -- Container for items
+    -- Main Content Area
     local Pages = Instance.new("Frame")
     Pages.Name = "Pages"
     Pages.Size = UDim2.new(1, -130, 1, -85)
@@ -98,6 +102,7 @@ function StudiosLib:CreateWindow(title)
     PagesCorner.CornerRadius = UDim.new(0, 8)
     PagesCorner.Parent = Pages
 
+    -- Bottom Controls
     local CloseBtn = Instance.new("TextButton")
     CloseBtn.Name = "CloseBtn"
     CloseBtn.Size = UDim2.new(1, -20, 0, 35)
@@ -133,10 +138,10 @@ function StudiosLib:CreateWindow(title)
         end
     end)
 
-    local Tabs = {}
+    local WindowFunctions = {}
     local FirstPage = true
 
-    function Tabs:CreateTab(name)
+    function WindowFunctions:CreateTab(name)
         local TabButton = Instance.new("TextButton")
         TabButton.Size = UDim2.new(1, 0, 0, 30)
         TabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
@@ -166,7 +171,7 @@ function StudiosLib:CreateWindow(title)
         PageTitle.Size = UDim2.new(1, 0, 0, 30)
         PageTitle.Position = UDim2.new(0, 0, 0, 5)
         PageTitle.BackgroundTransparency = 1
-        PageTitle.Text = "Title"
+        PageTitle.Text = name or "Title"
         PageTitle.TextColor3 = Color3.fromRGB(200, 200, 200)
         PageTitle.Font = Enum.Font.FredokaOne
         PageTitle.TextSize = 18
@@ -363,7 +368,7 @@ function StudiosLib:CreateWindow(title)
         return Elements
     end
 
-    return Tabs
+    return WindowFunctions
 end
 
 return StudiosLib
