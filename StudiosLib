@@ -19,7 +19,7 @@ function StudiosLib:CreateWindow(title)
     MainFrame.Name = "MainFrame"
     MainFrame.Size = UDim2.new(0, 500, 0, 350)
     MainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
-    MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Fundo total preto como na foto
     MainFrame.BorderSizePixel = 0
     MainFrame.Parent = ScreenGui
 
@@ -27,10 +27,10 @@ function StudiosLib:CreateWindow(title)
     UICorner.CornerRadius = UDim.new(0, 6)
     UICorner.Parent = MainFrame
 
-    -- Header (Created early to avoid NIL errors)
+    -- Header
     local Header = Instance.new("Frame")
     Header.Name = "Header"
-    Header.Size = UDim2.new(1, 0, 0, 30)
+    Header.Size = UDim2.new(1, -40, 0, 30) -- Deixa espaço para o botão lateral
     Header.BackgroundTransparency = 1
     Header.Parent = MainFrame
 
@@ -79,7 +79,7 @@ function StudiosLib:CreateWindow(title)
     -- Tab Selection Area
     local TabBar = Instance.new("ScrollingFrame")
     TabBar.Name = "TabBar"
-    TabBar.Size = UDim2.new(0, 100, 1, -85)
+    TabBar.Size = UDim2.new(0, 100, 1, -50)
     TabBar.Position = UDim2.new(0, 10, 0, 40)
     TabBar.BackgroundTransparency = 1
     TabBar.ScrollBarThickness = 0
@@ -92,7 +92,7 @@ function StudiosLib:CreateWindow(title)
     -- Main Content Area
     local Pages = Instance.new("Frame")
     Pages.Name = "Pages"
-    Pages.Size = UDim2.new(1, -130, 1, -85)
+    Pages.Size = UDim2.new(1, -160, 1, -50) -- Ajustado para o botão lateral
     Pages.Position = UDim2.new(0, 120, 0, 40)
     Pages.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     Pages.BorderSizePixel = 0
@@ -102,38 +102,41 @@ function StudiosLib:CreateWindow(title)
     PagesCorner.CornerRadius = UDim.new(0, 8)
     PagesCorner.Parent = Pages
 
-    -- Bottom Controls
+    -- Vertical CLOSE Button on the Right
     local CloseBtn = Instance.new("TextButton")
     CloseBtn.Name = "CloseBtn"
-    CloseBtn.Size = UDim2.new(1, -20, 0, 35)
-    CloseBtn.Position = UDim2.new(0, 10, 1, -45)
+    CloseBtn.Size = UDim2.new(0, 25, 1, -20)
+    CloseBtn.Position = UDim2.new(1, -30, 0, 10)
     CloseBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
     CloseBtn.Text = "CLOSE"
     CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
     CloseBtn.Font = Enum.Font.FredokaOne
-    CloseBtn.TextSize = 18
+    CloseBtn.TextSize = 25
+    CloseBtn.TextWrapped = true
     CloseBtn.Parent = MainFrame
 
     local CloseCorner = Instance.new("UICorner")
-    CloseCorner.CornerRadius = UDim.new(0, 4)
+    CloseCorner.CornerRadius = UDim.new(0, 6)
     CloseCorner.Parent = CloseBtn
 
     CloseBtn.MouseButton1Click:Connect(function()
         ScreenGui:Destroy()
     end)
 
+    -- Hide Hint at the Bottom
     local HideHint = Instance.new("TextLabel")
     HideHint.Size = UDim2.new(1, 0, 0, 20)
     HideHint.Position = UDim2.new(0, 0, 1, 5)
     HideHint.BackgroundTransparency = 1
-    HideHint.Text = "Press K For hide gui"
+    HideHint.Text = "Press 'H' For hide gui"
     HideHint.TextColor3 = Color3.fromRGB(255, 255, 255)
     HideHint.Font = Enum.Font.FredokaOne
-    HideHint.TextSize = 16
+    HideHint.TextSize = 18
     HideHint.Parent = MainFrame
 
+    -- Keybind Logic (Changed to H)
     UserInputService.InputBegan:Connect(function(input, gpe)
-        if not gpe and input.KeyCode == Enum.KeyCode.K then
+        if not gpe and input.KeyCode == Enum.KeyCode.H then
             MainFrame.Visible = not MainFrame.Visible
         end
     end)
@@ -214,7 +217,7 @@ function StudiosLib:CreateWindow(title)
             Label.Parent = ButtonFrame
 
             local Btn = Instance.new("TextButton")
-            Btn.Size = UDim2.new(0, 45, 0, 22) -- Aumentado para caber o texto
+            Btn.Size = UDim2.new(0, 45, 0, 22)
             Btn.Position = UDim2.new(1, -65, 0.5, -11)
             Btn.BackgroundColor3 = Color3.fromRGB(150, 0, 0) -- Vermelho (Off)
             Btn.Text = "Off"
@@ -231,10 +234,10 @@ function StudiosLib:CreateWindow(title)
             Btn.MouseButton1Click:Connect(function()
                 state = not state
                 local color = state and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(150, 0, 0)
-                local text = state and "On" or "Off"
+                local btnText = state and "On" or "Off"
                 
                 TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = color}):Play()
-                Btn.Text = text
+                Btn.Text = btnText
                 callback(state)
             end)
         end
@@ -357,22 +360,22 @@ function StudiosLib:CreateWindow(title)
                 callback(value)
             end
 
-            local dragging = false
+            local slddragging = false
             SliderBG.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    dragging = true
+                    slddragging = true
                     move(input)
                 end
             end)
 
             UserInputService.InputEnded:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    dragging = false
+                    slddragging = false
                 end
             end)
 
             UserInputService.InputChanged:Connect(function(input)
-                if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+                if slddragging and input.UserInputType == Enum.UserInputType.MouseMovement then
                     move(input)
                 end
             end)
