@@ -140,8 +140,14 @@ function StudiosLib:CreateWindow(title)
 
     local WindowFunctions = {}
     local FirstPage = true
+    local TabCount = 0
 
     function WindowFunctions:CreateTab(name)
+        if TabCount >= 5 then 
+            warn("StudiosLib: Máximo de 5 abas atingido.")
+            return nil 
+        end
+        TabCount = TabCount + 1
         local TabButton = Instance.new("TextButton")
         TabButton.Size = UDim2.new(1, 0, 0, 30)
         TabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
