@@ -6,6 +6,11 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 
 function StudiosLib:CreateWindow(title)
+    -- Clean up old GUI
+    if game:GetService("CoreGui"):FindFirstChild("StudiosLib") then
+        game:GetService("CoreGui"):FindFirstChild("StudiosLib"):Destroy()
+    end
+
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Name = "StudiosLib"
     ScreenGui.Parent = game:GetService("CoreGui")
@@ -22,9 +27,6 @@ function StudiosLib:CreateWindow(title)
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0, 6)
     UICorner.Parent = MainFrame
-
-    -- (Dragging logic moved after Header definition)
-
 
     -- Header
     local Header = Instance.new("Frame")
