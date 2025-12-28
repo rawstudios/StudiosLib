@@ -94,7 +94,7 @@ function StudiosLib:CreateWindow(title)
     Pages.Name = "Pages"
     Pages.Size = UDim2.new(1, -160, 1, -50) -- Ajustado para o botão lateral
     Pages.Position = UDim2.new(0, 120, 0, 40)
-    Pages.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Pages.BackgroundTransparency = 1
     Pages.BorderSizePixel = 0
     Pages.Parent = MainFrame
 
