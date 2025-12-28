@@ -214,10 +214,13 @@ function StudiosLib:CreateWindow(title)
             Label.Parent = ButtonFrame
 
             local Btn = Instance.new("TextButton")
-            Btn.Size = UDim2.new(0, 30, 0, 30)
-            Btn.Position = UDim2.new(1, -60, 0, 0)
-            Btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-            Btn.Text = ""
+            Btn.Size = UDim2.new(0, 45, 0, 22) -- Aumentado para caber o texto
+            Btn.Position = UDim2.new(1, -65, 0.5, -11)
+            Btn.BackgroundColor3 = Color3.fromRGB(150, 0, 0) -- Vermelho (Off)
+            Btn.Text = "Off"
+            Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Btn.Font = Enum.Font.FredokaOne
+            Btn.TextSize = 12
             Btn.Parent = ButtonFrame
 
             local BtnCorner = Instance.new("UICorner")
@@ -227,8 +230,11 @@ function StudiosLib:CreateWindow(title)
             local state = false
             Btn.MouseButton1Click:Connect(function()
                 state = not state
-                local color = state and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(0, 0, 0)
+                local color = state and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(150, 0, 0)
+                local text = state and "On" or "Off"
+                
                 TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = color}):Play()
+                Btn.Text = text
                 callback(state)
             end)
         end
