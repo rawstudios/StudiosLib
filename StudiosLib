@@ -143,8 +143,8 @@ function StudiosLib:CreateWindow(title)
     local TabCount = 0
 
     function WindowFunctions:CreateTab(name)
-        if TabCount >= 5 then 
-            warn("StudiosLib: Máximo de 5 abas atingido.")
+        if TabCount >= 8 then 
+            warn("StudiosLib: Máximo de 8 abas atingido.")
             return nil 
         end
         TabCount = TabCount + 1
