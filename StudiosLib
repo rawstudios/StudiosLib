@@ -23,6 +23,27 @@ function StudiosLib:CreateWindow(title)
     UICorner.CornerRadius = UDim.new(0, 6)
     UICorner.Parent = MainFrame
 
+    -- (Dragging logic moved after Header definition)
+
+
+    -- Header
+    local Header = Instance.new("Frame")
+    Header.Name = "Header"
+    Header.Size = UDim2.new(1, 0, 0, 30)
+    Header.BackgroundTransparency = 1
+    Header.Parent = MainFrame
+
+    local HeaderTitle = Instance.new("TextLabel")
+    HeaderTitle.Size = UDim2.new(1, -10, 1, 0)
+    HeaderTitle.Position = UDim2.new(0, 10, 0, 0)
+    HeaderTitle.BackgroundTransparency = 1
+    HeaderTitle.Text = title or "YouTube / @StudiosRaw | Libary By Studios Raw."
+    HeaderTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    HeaderTitle.TextXAlignment = Enum.TextXAlignment.Left
+    HeaderTitle.Font = Enum.Font.FredokaOne
+    HeaderTitle.TextSize = 16
+    HeaderTitle.Parent = Header
+
     -- Dragging Logic
     local dragging, dragInput, dragStart, startPos
     Header.InputBegan:Connect(function(input)
@@ -48,24 +69,6 @@ function StudiosLib:CreateWindow(title)
             MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
         end
     end)
-
-    -- Header
-    local Header = Instance.new("Frame")
-    Header.Name = "Header"
-    Header.Size = UDim2.new(1, 0, 0, 30)
-    Header.BackgroundTransparency = 1
-    Header.Parent = MainFrame
-
-    local HeaderTitle = Instance.new("TextLabel")
-    HeaderTitle.Size = UDim2.new(1, -10, 1, 0)
-    HeaderTitle.Position = UDim2.new(0, 10, 0, 0)
-    HeaderTitle.BackgroundTransparency = 1
-    HeaderTitle.Text = title or "YouTube / @StudiosRaw | Libary By Studios Raw."
-    HeaderTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    HeaderTitle.TextXAlignment = Enum.TextXAlignment.Left
-    HeaderTitle.Font = Enum.Font.FredokaOne
-    HeaderTitle.TextSize = 16
-    HeaderTitle.Parent = Header
 
     -- Tab Selection
     local TabBar = Instance.new("ScrollingFrame")
