@@ -332,8 +332,8 @@ function StudiosLib:CreateWindow(title)
 
             local Btn = Instance.new("TextButton")
             Btn.Size = UDim2.new(0, 50, 0, 24)
-            Btn.Position = UDim2.new(0, Label.TextBounds.X + 15, 0.5, -12) -- Ajustado para ficar do lado do texto
-            Btn.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Vermelho Off vibrante
+            Btn.Position = UDim2.new(1, -60, 0.5, -12) -- Alinhado à direita de forma fixa
+            Btn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
             Btn.Text = "Off"
             Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
             Btn.Font = Enum.Font.GothamBold
@@ -425,8 +425,8 @@ function StudiosLib:CreateWindow(title)
 
             local Tgl = Instance.new("TextButton")
             Tgl.Size = UDim2.new(0, 26, 0, 26)
-            Tgl.Position = UDim2.new(0, Label.TextBounds.X + 15, 0.5, -13)
-            Tgl.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+            Tgl.Position = UDim2.new(1, -36, 0.5, -13) -- Alinhado à direita de forma fixa
+            Tgl.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
             Tgl.Text = "X"
             Tgl.TextColor3 = Color3.fromRGB(0, 0, 0)
             Tgl.Font = Enum.Font.GothamBold
@@ -441,10 +441,11 @@ function StudiosLib:CreateWindow(title)
             
             local function update()
                 if state then
-                    Tgl.BackgroundColor3 = Color3.fromRGB(30, 200, 50)
-                    Tgl.Visible = true
+                    Tgl.BackgroundColor3 = Color3.fromRGB(30, 200, 50) -- Verde Ativo
+                    Tgl.TextColor3 = Color3.fromRGB(0, 0, 0) -- X visível
                 else
-                    Tgl.Visible = false -- Checkbox some ou muda visual conforme imagem? Na imagem está On com X.
+                    Tgl.BackgroundColor3 = Color3.fromRGB(45, 45, 45) -- Cinza Escuro (Inativo)
+                    Tgl.TextColor3 = Color3.fromRGB(45, 45, 45) -- Oculta o X
                 end
             end
 
@@ -489,7 +490,7 @@ function StudiosLib:CreateWindow(title)
 
             local SliderBG = Instance.new("Frame")
             SliderBG.Size = UDim2.new(0, 60, 0, 24)
-            SliderBG.Position = UDim2.new(0, Label.TextBounds.X + 20, 0.5, -12)
+            SliderBG.Position = UDim2.new(1, -70, 0.5, -12) -- Alinhado à direita de forma fixa
             SliderBG.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
             SliderBG.BorderSizePixel = 0
             SliderBG.Parent = SliderFrame
