@@ -17,25 +17,26 @@ function StudiosLib:CreateWindow(title)
 
     local MainFrame = Instance.new("Frame")
     MainFrame.Name = "MainFrame"
-    MainFrame.Size = UDim2.new(0, 500, 0, 350)
-    MainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
-    MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Fundo total preto como na foto
+    MainFrame.Size = UDim2.new(0, 500, 0, 320)
+    MainFrame.Position = UDim2.new(0.5, -250, 0.5, -160)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     MainFrame.BorderSizePixel = 0
     MainFrame.Parent = ScreenGui
+    MainFrame.ClipsDescendants = true
 
     local UICorner = Instance.new("UICorner")
-    UICorner.CornerRadius = UDim.new(0, 6)
+    UICorner.CornerRadius = UDim.new(0, 8)
     UICorner.Parent = MainFrame
 
     -- Header
     local Header = Instance.new("Frame")
     Header.Name = "Header"
-    Header.Size = UDim2.new(1, -40, 0, 30) -- Deixa espaço para o botão lateral
+    Header.Size = UDim2.new(1, 0, 0, 35)
     Header.BackgroundTransparency = 1
     Header.Parent = MainFrame
 
     local HeaderTitle = Instance.new("TextLabel")
-    HeaderTitle.Size = UDim2.new(1, -10, 1, 0)
+    HeaderTitle.Size = UDim2.new(1, -90, 1, 0)
     HeaderTitle.Position = UDim2.new(0, 10, 0, 0)
     HeaderTitle.BackgroundTransparency = 1
     HeaderTitle.Text = title or "YouTube / @StudiosRaw | Libary By Studios Raw."
@@ -45,6 +46,65 @@ function StudiosLib:CreateWindow(title)
     HeaderTitle.TextSize = 16
     HeaderTitle.Parent = Header
 
+    -- Buttons Container
+    local BtnContainer = Instance.new("Frame")
+    BtnContainer.Size = UDim2.new(0, 70, 0, 20)
+    BtnContainer.Position = UDim2.new(1, -75, 0.5, -10)
+    BtnContainer.BackgroundTransparency = 1
+    BtnContainer.Parent = Header
+
+    -- Close Button
+    local CloseBtnTop = Instance.new("TextButton")
+    CloseBtnTop.Size = UDim2.new(0, 30, 0, 20)
+    CloseBtnTop.Position = UDim2.new(1, -30, 0, 0)
+    CloseBtnTop.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+    CloseBtnTop.Text = "x"
+    CloseBtnTop.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseBtnTop.Font = Enum.Font.FredokaOne
+    CloseBtnTop.TextSize = 14
+    CloseBtnTop.Parent = BtnContainer
+
+    local CloseCornerTop = Instance.new("UICorner")
+    CloseCornerTop.CornerRadius = UDim.new(0, 6)
+    CloseCornerTop.Parent = CloseBtnTop
+
+    -- Minimize Button
+    local MinBtn = Instance.new("TextButton")
+    MinBtn.Size = UDim2.new(0, 30, 0, 20)
+    MinBtn.Position = UDim2.new(1, -65, 0, 0)
+    MinBtn.BackgroundColor3 = Color3.fromRGB(240, 200, 0) -- Amarelo
+    MinBtn.Text = "-"
+    MinBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+    MinBtn.Font = Enum.Font.FredokaOne
+    MinBtn.TextSize = 18
+    MinBtn.Parent = BtnContainer
+
+    local MinCorner = Instance.new("UICorner")
+    MinCorner.CornerRadius = UDim.new(0, 6)
+    MinCorner.Parent = MinBtn
+
+    -- Logic for Minimize/Restore
+    local minimized = false
+    local originalSize = MainFrame.Size
+
+    local function toggleMinimize()
+        minimized = not minimized
+        if minimized then
+            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Size = UDim2.new(0, 500, 0, 35)}):Play()
+            MinBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Verde ao minimizar
+            MinBtn.Text = "+"
+            MinBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        else
+            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Size = originalSize}):Play()
+            MinBtn.BackgroundColor3 = Color3.fromRGB(240, 200, 0) -- Amarelo original
+            MinBtn.Text = "-"
+            MinBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+        end
+    end
+
+    MinBtn.MouseButton1Click:Connect(toggleMinimize)
+    CloseBtnTop.MouseButton1Click:Connect(function() ScreenGui:Destroy() end)
+
     -- Dragging Logic
     local dragging, dragInput, dragStart, startPos
     Header.InputBegan:Connect(function(input)
@@ -52,35 +112,28 @@ function StudiosLib:CreateWindow(title)
             dragging = true
             dragStart = input.Position
             startPos = MainFrame.Position
-            
-            local connection
-            connection = input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
-                    if connection then connection:Disconnect() end
-                end
-            end)
-        end
-    end)
-
-    Header.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement then
-            dragInput = input
         end
     end)
 
     UserInputService.InputChanged:Connect(function(input)
-        if input == dragInput and dragging then
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
             local delta = input.Position - dragStart
             MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
         end
     end)
+    
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
 
-    -- Tab Selection Area
+    -- Sidebar (Abas)
     local TabBar = Instance.new("ScrollingFrame")
     TabBar.Name = "TabBar"
-    TabBar.Size = UDim2.new(0, 100, 1, -50)
+    TabBar.Size = UDim2.new(0, 90, 1, -55)
     TabBar.Position = UDim2.new(0, 10, 0, 40)
+    TabBar.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
     TabBar.BackgroundTransparency = 1
     TabBar.ScrollBarThickness = 0
     TabBar.Parent = MainFrame
@@ -89,44 +142,22 @@ function StudiosLib:CreateWindow(title)
     TabListLayout.Padding = UDim.new(0, 5)
     TabListLayout.Parent = TabBar
 
-    -- Main Content Area
+    -- Pages Container
     local Pages = Instance.new("Frame")
     Pages.Name = "Pages"
-    Pages.Size = UDim2.new(1, -160, 1, -50) -- Ajustado para o botão lateral
-    Pages.Position = UDim2.new(0, 120, 0, 40)
-    Pages.BackgroundTransparency = 1
-    Pages.BorderSizePixel = 0
+    Pages.Size = UDim2.new(1, -120, 1, -55)
+    Pages.Position = UDim2.new(0, 110, 0, 40)
+    Pages.BackgroundColor3 = Color3.fromRGB(30,30,30)
     Pages.Parent = MainFrame
 
     local PagesCorner = Instance.new("UICorner")
     PagesCorner.CornerRadius = UDim.new(0, 8)
     PagesCorner.Parent = Pages
 
-    -- Vertical CLOSE Button on the Right
-    local CloseBtn = Instance.new("TextButton")
-    CloseBtn.Name = "CloseBtn"
-    CloseBtn.Size = UDim2.new(0, 25, 1, -20)
-    CloseBtn.Position = UDim2.new(1, -30, 0, 10)
-    CloseBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-    CloseBtn.Text = "CLOSE"
-    CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    CloseBtn.Font = Enum.Font.FredokaOne
-    CloseBtn.TextSize = 25
-    CloseBtn.TextWrapped = true
-    CloseBtn.Parent = MainFrame
-
-    local CloseCorner = Instance.new("UICorner")
-    CloseCorner.CornerRadius = UDim.new(0, 6)
-    CloseCorner.Parent = CloseBtn
-
-    CloseBtn.MouseButton1Click:Connect(function()
-        ScreenGui:Destroy()
-    end)
-
-    -- Hide Hint at the Bottom
+    -- Hide GUI Hint
     local HideHint = Instance.new("TextLabel")
     HideHint.Size = UDim2.new(1, 0, 0, 20)
-    HideHint.Position = UDim2.new(0, 0, 1, 5)
+    HideHint.Position = UDim2.new(0, 0, 1, 10)
     HideHint.BackgroundTransparency = 1
     HideHint.Text = "Press 'H' For hide gui"
     HideHint.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -134,23 +165,17 @@ function StudiosLib:CreateWindow(title)
     HideHint.TextSize = 18
     HideHint.Parent = MainFrame
 
-    -- Keybind Logic (Changed to H)
     UserInputService.InputBegan:Connect(function(input, gpe)
         if not gpe and input.KeyCode == Enum.KeyCode.H then
             MainFrame.Visible = not MainFrame.Visible
+            HideHint.Visible = MainFrame.Visible
         end
     end)
 
     local WindowFunctions = {}
     local FirstPage = true
-    local TabCount = 0
 
     function WindowFunctions:CreateTab(name)
-        if TabCount >= 8 then 
-            warn("StudiosLib: Máximo de 8 abas atingido.")
-            return nil 
-        end
-        TabCount = TabCount + 1
         local TabButton = Instance.new("TextButton")
         TabButton.Size = UDim2.new(1, 0, 0, 30)
         TabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
@@ -161,7 +186,7 @@ function StudiosLib:CreateWindow(title)
         TabButton.Parent = TabBar
 
         local TabCorner = Instance.new("UICorner")
-        TabCorner.CornerRadius = UDim.new(0, 4)
+        TabCorner.CornerRadius = UDim.new(0, 6)
         TabCorner.Parent = TabButton
 
         local Page = Instance.new("ScrollingFrame")
@@ -188,6 +213,7 @@ function StudiosLib:CreateWindow(title)
 
         if FirstPage then
             Page.Visible = true
+            TabButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
             FirstPage = false
         end
 
@@ -195,7 +221,11 @@ function StudiosLib:CreateWindow(title)
             for _, v in pairs(Pages:GetChildren()) do
                 if v:IsA("ScrollingFrame") then v.Visible = false end
             end
+            for _, v in pairs(TabBar:GetChildren()) do
+                if v:IsA("TextButton") then v.BackgroundColor3 = Color3.fromRGB(40, 40, 40) end
+            end
             Page.Visible = true
+            TabButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
         end)
 
         local Elements = {}
@@ -207,7 +237,7 @@ function StudiosLib:CreateWindow(title)
             ButtonFrame.Parent = Page
 
             local Label = Instance.new("TextLabel")
-            Label.Size = UDim2.new(0.7, 0, 1, 0)
+            Label.Size = UDim2.new(0.6, 0, 1, 0)
             Label.BackgroundTransparency = 1
             Label.Text = text
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -217,9 +247,9 @@ function StudiosLib:CreateWindow(title)
             Label.Parent = ButtonFrame
 
             local Btn = Instance.new("TextButton")
-            Btn.Size = UDim2.new(0, 45, 0, 22)
-            Btn.Position = UDim2.new(1, -65, 0.5, -11)
-            Btn.BackgroundColor3 = Color3.fromRGB(150, 0, 0) -- Vermelho (Off)
+            Btn.Size = UDim2.new(0, 45, 0, 20)
+            Btn.Position = UDim2.new(0, 70, 0.5, -10)
+            Btn.BackgroundColor3 = Color3.fromRGB(200, 0, 0) -- Vermelho Off
             Btn.Text = "Off"
             Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
             Btn.Font = Enum.Font.FredokaOne
@@ -233,11 +263,8 @@ function StudiosLib:CreateWindow(title)
             local state = false
             Btn.MouseButton1Click:Connect(function()
                 state = not state
-                local color = state and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(150, 0, 0)
-                local btnText = state and "On" or "Off"
-                
-                TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = color}):Play()
-                Btn.Text = btnText
+                Btn.BackgroundColor3 = state and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(200, 0, 0)
+                Btn.Text = state and "On" or "Off"
                 callback(state)
             end)
         end
@@ -261,7 +288,7 @@ function StudiosLib:CreateWindow(title)
             ToggleFrame.Parent = Page
 
             local Label = Instance.new("TextLabel")
-            Label.Size = UDim2.new(0.7, 0, 1, 0)
+            Label.Size = UDim2.new(0.6, 0, 1, 0)
             Label.BackgroundTransparency = 1
             Label.Text = text
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -271,13 +298,13 @@ function StudiosLib:CreateWindow(title)
             Label.Parent = ToggleFrame
 
             local Tgl = Instance.new("TextButton")
-            Tgl.Size = UDim2.new(0, 30, 0, 30)
-            Tgl.Position = UDim2.new(1, -60, 0, 0)
-            Tgl.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+            Tgl.Size = UDim2.new(0, 22, 0, 22)
+            Tgl.Position = UDim2.new(0, 95, 0.5, -11)
+            Tgl.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             Tgl.Text = "X"
             Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
             Tgl.Font = Enum.Font.FredokaOne
-            Tgl.TextSize = 20
+            Tgl.TextSize = 18
             Tgl.Parent = ToggleFrame
 
             local TglCorner = Instance.new("UICorner")
@@ -289,11 +316,9 @@ function StudiosLib:CreateWindow(title)
             local function update()
                 if state then
                     Tgl.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-                    Tgl.Text = "X"
                     Tgl.TextColor3 = Color3.fromRGB(0, 0, 0)
                 else
-                    Tgl.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-                    Tgl.Text = "X"
+                    Tgl.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
                 end
             end
@@ -313,7 +338,7 @@ function StudiosLib:CreateWindow(title)
             SliderFrame.Parent = Page
 
             local Label = Instance.new("TextLabel")
-            Label.Size = UDim2.new(0.4, 0, 1, 0)
+            Label.Size = UDim2.new(0, 60, 1, 0)
             Label.BackgroundTransparency = 1
             Label.Text = text
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -323,9 +348,9 @@ function StudiosLib:CreateWindow(title)
             Label.Parent = SliderFrame
 
             local SliderBG = Instance.new("Frame")
-            SliderBG.Size = UDim2.new(0.5, 0, 0, 15)
-            SliderBG.Position = UDim2.new(0.4, 0, 0.5, -7)
-            SliderBG.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+            SliderBG.Size = UDim2.new(0, 180, 0, 15)
+            SliderBG.Position = UDim2.new(0, 70, 0.5, -7)
+            SliderBG.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
             SliderBG.BorderSizePixel = 0
             SliderBG.Parent = SliderFrame
 
@@ -335,7 +360,7 @@ function StudiosLib:CreateWindow(title)
 
             local SliderFill = Instance.new("Frame")
             SliderFill.Size = UDim2.new((default-min)/(max-min), 0, 1, 0)
-            SliderFill.BackgroundColor3 = Color3.fromRGB(0, 0, 120) -- Azul Escuro
+            SliderFill.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             SliderFill.BorderSizePixel = 0
             SliderFill.Parent = SliderBG
 
