@@ -163,10 +163,52 @@ function StudiosLib:CreateWindow(title)
         end
     end)
 
-    -- Sidebar (Abas)
+    -- User Profile Panel
+    local UserPanel = Instance.new("Frame")
+    UserPanel.Name = "UserPanel"
+    UserPanel.Size = UDim2.new(0, 90, 0, 30)
+    UserPanel.Position = UDim2.new(0, 10, 1, -40)
+    UserPanel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    UserPanel.Parent = MainFrame
+
+    local UserCorner = Instance.new("UICorner")
+    UserCorner.CornerRadius = UDim.new(0, 8)
+    UserCorner.Parent = UserPanel
+
+    local UserImage = Instance.new("ImageLabel")
+    UserImage.Size = UDim2.new(0, 20, 0, 20)
+    UserImage.Position = UDim2.new(0, 5, 0.5, -10)
+    UserImage.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    UserImage.BackgroundTransparency = 0
+    UserImage.Parent = UserPanel
+
+    local ImgCorner = Instance.new("UICorner")
+    ImgCorner.CornerRadius = UDim.new(1, 0)
+    ImgCorner.Parent = UserImage
+
+    local UserName = Instance.new("TextLabel")
+    UserName.Size = UDim2.new(1, -30, 1, 0)
+    UserName.Position = UDim2.new(0, 30, 0, 0)
+    UserName.BackgroundTransparency = 1
+    UserName.Text = LocalPlayer.DisplayName or LocalPlayer.Name
+    UserName.TextColor3 = Color3.fromRGB(200, 200, 200)
+    UserName.Font = Enum.Font.FredokaOne
+    UserName.TextSize = 10
+    UserName.TextXAlignment = Enum.TextXAlignment.Left
+    UserName.Parent = UserPanel
+
+    -- Avatar Loading
+    task.spawn(function()
+        local content, isReady = Players:GetUserThumbnailAsync(LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size48x48)
+        if isReady then
+            UserImage.Image = content
+        end
+    end)
+
+    -- Sidebar (Abas) - Ajustado para dar espaço ao UserPanel
     local TabBar = Instance.new("ScrollingFrame")
     TabBar.Name = "TabBar"
-    TabBar.Size = UDim2.new(0, 90, 1, -55)
+    TabBar.Size = UDim2.new(0, 90, 1, -100)
     TabBar.Position = UDim2.new(0, 10, 0, 40)
     TabBar.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
     TabBar.BackgroundTransparency = 1
