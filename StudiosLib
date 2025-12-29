@@ -53,8 +53,8 @@ function StudiosLib:CreateWindow(title)
 
     local MainFrame = Instance.new("Frame")
     MainFrame.Name = "MainFrame"
-    MainFrame.Size = UDim2.new(0, 500, 0, 320)
-    MainFrame.Position = UDim2.new(0.5, -250, 0.5, -160)
+    MainFrame.Size = UDim2.new(0, 520, 0, 340)
+    MainFrame.Position = UDim2.new(0.5, -260, 0.5, -170)
     MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     MainFrame.BorderSizePixel = 0
     MainFrame.Parent = ScreenGui
@@ -73,13 +73,13 @@ function StudiosLib:CreateWindow(title)
 
     local HeaderTitle = Instance.new("TextLabel")
     HeaderTitle.Size = UDim2.new(1, -90, 1, 0)
-    HeaderTitle.Position = UDim2.new(0, 10, 0, 0)
+    HeaderTitle.Position = UDim2.new(0, 15, 0, 0)
     HeaderTitle.BackgroundTransparency = 1
     HeaderTitle.Text = title or "YouTube / @StudiosRaw | Libary By Studios Raw."
     HeaderTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
     HeaderTitle.TextXAlignment = Enum.TextXAlignment.Left
-    HeaderTitle.Font = Enum.Font.FredokaOne
-    HeaderTitle.TextSize = 16
+    HeaderTitle.Font = Enum.Font.GothamBold
+    HeaderTitle.TextSize = 18
     HeaderTitle.Parent = Header
 
     -- Buttons Container
@@ -91,32 +91,32 @@ function StudiosLib:CreateWindow(title)
 
     -- Close Button
     local CloseBtnTop = Instance.new("TextButton")
-    CloseBtnTop.Size = UDim2.new(0, 30, 0, 20)
-    CloseBtnTop.Position = UDim2.new(1, -30, 0, 0)
-    CloseBtnTop.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+    CloseBtnTop.Size = UDim2.new(0, 24, 0, 24)
+    CloseBtnTop.Position = UDim2.new(1, -28, 0.5, -12)
+    CloseBtnTop.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
     CloseBtnTop.Text = "x"
     CloseBtnTop.TextColor3 = Color3.fromRGB(255, 255, 255)
-    CloseBtnTop.Font = Enum.Font.FredokaOne
+    CloseBtnTop.Font = Enum.Font.GothamBold
     CloseBtnTop.TextSize = 14
-    CloseBtnTop.Parent = BtnContainer
+    CloseBtnTop.Parent = Header
 
     local CloseCornerTop = Instance.new("UICorner")
-    CloseCornerTop.CornerRadius = UDim.new(0, 6)
+    CloseCornerTop.CornerRadius = UDim.new(1, 0)
     CloseCornerTop.Parent = CloseBtnTop
 
     -- Minimize Button
     local MinBtn = Instance.new("TextButton")
-    MinBtn.Size = UDim2.new(0, 30, 0, 20)
-    MinBtn.Position = UDim2.new(1, -65, 0, 0)
-    MinBtn.BackgroundColor3 = Color3.fromRGB(240, 200, 0) -- Amarelo
+    MinBtn.Size = UDim2.new(0, 24, 0, 24)
+    MinBtn.Position = UDim2.new(1, -56, 0.5, -12)
+    MinBtn.BackgroundColor3 = Color3.fromRGB(240, 200, 0)
     MinBtn.Text = "-"
     MinBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-    MinBtn.Font = Enum.Font.FredokaOne
+    MinBtn.Font = Enum.Font.GothamBold
     MinBtn.TextSize = 18
-    MinBtn.Parent = BtnContainer
+    MinBtn.Parent = Header
 
     local MinCorner = Instance.new("UICorner")
-    MinCorner.CornerRadius = UDim.new(0, 6)
+    MinCorner.CornerRadius = UDim.new(1, 0)
     MinCorner.Parent = MinBtn
 
     -- Logic for Minimize/Restore
@@ -167,9 +167,9 @@ function StudiosLib:CreateWindow(title)
     -- User Profile Panel
     local UserPanel = Instance.new("Frame")
     UserPanel.Name = "UserPanel"
-    UserPanel.Size = UDim2.new(0, 90, 0, 30)
-    UserPanel.Position = UDim2.new(0, 10, 1, -40)
-    UserPanel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    UserPanel.Size = UDim2.new(0, 110, 0, 35)
+    UserPanel.Position = UDim2.new(0, 5, 1, -45)
+    UserPanel.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     UserPanel.Parent = MainFrame
 
     local UserCorner = Instance.new("UICorner")
@@ -177,9 +177,9 @@ function StudiosLib:CreateWindow(title)
     UserCorner.Parent = UserPanel
 
     local UserImage = Instance.new("ImageLabel")
-    UserImage.Size = UDim2.new(0, 20, 0, 20)
-    UserImage.Position = UDim2.new(0, 5, 0.5, -10)
-    UserImage.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    UserImage.Size = UDim2.new(0, 25, 0, 25)
+    UserImage.Position = UDim2.new(0, 5, 0.5, -12)
+    UserImage.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
     UserImage.BackgroundTransparency = 0
     UserImage.Parent = UserPanel
 
@@ -188,13 +188,13 @@ function StudiosLib:CreateWindow(title)
     ImgCorner.Parent = UserImage
 
     local UserName = Instance.new("TextLabel")
-    UserName.Size = UDim2.new(1, -30, 1, 0)
-    UserName.Position = UDim2.new(0, 30, 0, 0)
+    UserName.Size = UDim2.new(1, -40, 1, 0)
+    UserName.Position = UDim2.new(0, 35, 0, 0)
     UserName.BackgroundTransparency = 1
     UserName.Text = LocalPlayer.DisplayName or LocalPlayer.Name
-    UserName.TextColor3 = Color3.fromRGB(200, 200, 200)
-    UserName.Font = Enum.Font.FredokaOne
-    UserName.TextSize = 10
+    UserName.TextColor3 = Color3.fromRGB(255, 255, 255)
+    UserName.Font = Enum.Font.GothamBold
+    UserName.TextSize = 12
     UserName.TextXAlignment = Enum.TextXAlignment.Left
     UserName.Parent = UserPanel
 
@@ -209,9 +209,9 @@ function StudiosLib:CreateWindow(title)
     -- Sidebar (Abas) - Ajustado para dar espaço ao UserPanel
     local TabBar = Instance.new("ScrollingFrame")
     TabBar.Name = "TabBar"
-    TabBar.Size = UDim2.new(0, 90, 1, -100)
-    TabBar.Position = UDim2.new(0, 10, 0, 40)
-    TabBar.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    TabBar.Size = UDim2.new(0, 110, 1, -100)
+    TabBar.Position = UDim2.new(0, 5, 0, 45)
+    TabBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     TabBar.BackgroundTransparency = 1
     TabBar.ScrollBarThickness = 0
     TabBar.Parent = MainFrame
@@ -223,9 +223,9 @@ function StudiosLib:CreateWindow(title)
     -- Pages Container
     local Pages = Instance.new("Frame")
     Pages.Name = "Pages"
-    Pages.Size = UDim2.new(1, -120, 1, -55)
-    Pages.Position = UDim2.new(0, 110, 0, 40)
-    Pages.BackgroundColor3 = Color3.fromRGB(30,30,30)
+    Pages.Size = UDim2.new(1, -135, 1, -55)
+    Pages.Position = UDim2.new(0, 125, 0, 45)
+    Pages.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     Pages.Parent = MainFrame
 
     local PagesCorner = Instance.new("UICorner")
@@ -235,12 +235,13 @@ function StudiosLib:CreateWindow(title)
     -- Hide GUI Hint (Parented to MainFrame so it follows dragging)
     local HideHint = Instance.new("TextLabel")
     HideHint.Size = UDim2.new(0, 200, 0, 20)
-    HideHint.Position = UDim2.new(0.5, -100, 1, 10)
+    HideHint.Position = UDim2.new(0.5, -100, 1, -25) -- Movi para dentro do frame para teste
+    HideHint.Visible = false -- Oculto por padrão para limpar o visual
     HideHint.BackgroundTransparency = 1
     HideHint.Text = "Press 'H' For hide gui"
     HideHint.TextColor3 = Color3.fromRGB(255, 255, 255)
-    HideHint.Font = Enum.Font.FredokaOne
-    HideHint.TextSize = 18
+    HideHint.Font = Enum.Font.GothamBold
+    HideHint.TextSize = 14
     HideHint.Parent = MainFrame
 
     UserInputService.InputBegan:Connect(function(input, gpe)
@@ -254,16 +255,16 @@ function StudiosLib:CreateWindow(title)
 
     function WindowFunctions:CreateTab(name)
         local TabButton = Instance.new("TextButton")
-        TabButton.Size = UDim2.new(1, 0, 0, 30)
-        TabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        TabButton.Size = UDim2.new(1, 0, 0, 35)
+        TabButton.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
         TabButton.Text = name
         TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        TabButton.Font = Enum.Font.FredokaOne
-        TabButton.TextSize = 14
+        TabButton.Font = Enum.Font.GothamBold
+        TabButton.TextSize = 16
         TabButton.Parent = TabBar
 
         local TabCorner = Instance.new("UICorner")
-        TabCorner.CornerRadius = UDim.new(0, 6)
+        TabCorner.CornerRadius = UDim.new(0, 10)
         TabCorner.Parent = TabButton
 
         local Page = Instance.new("ScrollingFrame")
@@ -283,9 +284,10 @@ function StudiosLib:CreateWindow(title)
         PageTitle.Position = UDim2.new(0, 0, 0, 5)
         PageTitle.BackgroundTransparency = 1
         PageTitle.Text = name or "Title"
-        PageTitle.TextColor3 = Color3.fromRGB(200, 200, 200)
-        PageTitle.Font = Enum.Font.FredokaOne
-        PageTitle.TextSize = 18
+        PageTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+        PageTitle.Font = Enum.Font.GothamBold
+        PageTitle.TextSize = 20
+        PageTitle.TextXAlignment = Enum.TextXAlignment.Center -- Centralizado conforme imagem
         PageTitle.Parent = Page
 
         if FirstPage then
@@ -299,10 +301,10 @@ function StudiosLib:CreateWindow(title)
                 if v:IsA("ScrollingFrame") then v.Visible = false end
             end
             for _, v in pairs(TabBar:GetChildren()) do
-                if v:IsA("TextButton") then v.BackgroundColor3 = Color3.fromRGB(40, 40, 40) end
+                if v:IsA("TextButton") then v.BackgroundColor3 = Color3.fromRGB(35, 35, 35) end
             end
             Page.Visible = true
-            TabButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            TabButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         end)
 
         local Elements = {}
@@ -323,19 +325,19 @@ function StudiosLib:CreateWindow(title)
             Label.BackgroundTransparency = 1
             Label.Text = text
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-            Label.Font = Enum.Font.FredokaOne
-            Label.TextSize = 16
+            Label.Font = Enum.Font.GothamBold
+            Label.TextSize = 18
             Label.TextXAlignment = Enum.TextXAlignment.Left
             Label.Parent = ButtonFrame
 
             local Btn = Instance.new("TextButton")
-            Btn.Size = UDim2.new(0, 45, 0, 20)
-            Btn.Position = UDim2.new(1, -50, 0.5, -10)
-            Btn.BackgroundColor3 = Color3.fromRGB(200, 0, 0) -- Vermelho Off
+            Btn.Size = UDim2.new(0, 50, 0, 24)
+            Btn.Position = UDim2.new(0, Label.TextBounds.X + 15, 0.5, -12) -- Ajustado para ficar do lado do texto
+            Btn.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Vermelho Off vibrante
             Btn.Text = "Off"
             Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-            Btn.Font = Enum.Font.FredokaOne
-            Btn.TextSize = 12
+            Btn.Font = Enum.Font.GothamBold
+            Btn.TextSize = 14
             Btn.Parent = ButtonFrame
 
             local BtnCorner = Instance.new("UICorner")
@@ -345,7 +347,7 @@ function StudiosLib:CreateWindow(title)
             local state = false
             
             local function update()
-                Btn.BackgroundColor3 = state and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(200, 0, 0)
+                Btn.BackgroundColor3 = state and Color3.fromRGB(0, 200, 100) or Color3.fromRGB(255, 0, 0)
                 Btn.Text = state and "On" or "Off"
             end
 
@@ -374,11 +376,11 @@ function StudiosLib:CreateWindow(title)
 
             local Btn = Instance.new("TextButton")
             Btn.Size = UDim2.new(1, 0, 1, 0)
-            Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+            Btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
             Btn.Text = text
             Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-            Btn.Font = Enum.Font.FredokaOne
-            Btn.TextSize = 14
+            Btn.Font = Enum.Font.GothamBold
+            Btn.TextSize = 16
             Btn.Parent = ButtonFrame
 
             local BtnCorner = Instance.new("UICorner")
@@ -394,8 +396,8 @@ function StudiosLib:CreateWindow(title)
             Label.BackgroundTransparency = 1
             Label.Text = text
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-            Label.Font = Enum.Font.FredokaOne
-            Label.TextSize = 16
+            Label.Font = Enum.Font.GothamBold
+            Label.TextSize = 18
             Label.TextXAlignment = Enum.TextXAlignment.Left
             Label.Parent = Page
         end
@@ -416,18 +418,18 @@ function StudiosLib:CreateWindow(title)
             Label.BackgroundTransparency = 1
             Label.Text = text
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-            Label.Font = Enum.Font.FredokaOne
-            Label.TextSize = 16
+            Label.Font = Enum.Font.GothamBold
+            Label.TextSize = 18
             Label.TextXAlignment = Enum.TextXAlignment.Left
             Label.Parent = ToggleFrame
 
             local Tgl = Instance.new("TextButton")
-            Tgl.Size = UDim2.new(0, 22, 0, 22)
-            Tgl.Position = UDim2.new(1, -30, 0.5, -11)
-            Tgl.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+            Tgl.Size = UDim2.new(0, 26, 0, 26)
+            Tgl.Position = UDim2.new(0, Label.TextBounds.X + 15, 0.5, -13)
+            Tgl.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
             Tgl.Text = "X"
-            Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
-            Tgl.Font = Enum.Font.FredokaOne
+            Tgl.TextColor3 = Color3.fromRGB(0, 0, 0)
+            Tgl.Font = Enum.Font.GothamBold
             Tgl.TextSize = 18
             Tgl.Parent = ToggleFrame
 
@@ -439,11 +441,10 @@ function StudiosLib:CreateWindow(title)
             
             local function update()
                 if state then
-                    Tgl.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-                    Tgl.TextColor3 = Color3.fromRGB(0, 0, 0)
+                    Tgl.BackgroundColor3 = Color3.fromRGB(30, 200, 50)
+                    Tgl.Visible = true
                 else
-                    Tgl.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-                    Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
+                    Tgl.Visible = false -- Checkbox some ou muda visual conforme imagem? Na imagem está On com X.
                 end
             end
 
@@ -481,56 +482,43 @@ function StudiosLib:CreateWindow(title)
             Label.BackgroundTransparency = 1
             Label.Text = text
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-            Label.Font = Enum.Font.FredokaOne
-            Label.TextSize = 16
+            Label.Font = Enum.Font.GothamBold
+            Label.TextSize = 18
             Label.TextXAlignment = Enum.TextXAlignment.Left
             Label.Parent = SliderFrame
 
             local SliderBG = Instance.new("Frame")
-            SliderBG.Size = UDim2.new(0, 180, 0, 15)
-            SliderBG.Position = UDim2.new(0, 70, 0.5, -7)
-            SliderBG.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+            SliderBG.Size = UDim2.new(0, 60, 0, 24)
+            SliderBG.Position = UDim2.new(0, Label.TextBounds.X + 20, 0.5, -12)
+            SliderBG.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
             SliderBG.BorderSizePixel = 0
             SliderBG.Parent = SliderFrame
 
             local SliderBGCorner = Instance.new("UICorner")
-            SliderBGCorner.CornerRadius = UDim.new(1, 0)
+            SliderBGCorner.CornerRadius = UDim.new(0, 10)
             SliderBGCorner.Parent = SliderBG
 
-            local SliderFill = Instance.new("Frame")
-            SliderFill.Size = UDim2.new((default-min)/(max-min), 0, 1, 0)
-            SliderFill.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-            SliderFill.BorderSizePixel = 0
-            SliderFill.Parent = SliderBG
-
-            local SliderFillCorner = Instance.new("UICorner")
-            SliderFillCorner.CornerRadius = UDim.new(1, 0)
-            SliderFillCorner.Parent = SliderFill
-
-            local PercentLabel = Instance.new("TextLabel")
-            PercentLabel.Size = UDim2.new(1, 0, 1, 0)
-            PercentLabel.BackgroundTransparency = 1
-            PercentLabel.Text = tostring(math.floor(((default-min)/(max-min))*100)) .. "%"
-            PercentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-            PercentLabel.Font = Enum.Font.FredokaOne
-            PercentLabel.TextSize = 14
-            PercentLabel.Parent = SliderBG
+            local ValLabel = Instance.new("TextLabel")
+            ValLabel.Size = UDim2.new(1, 0, 1, 0)
+            ValLabel.BackgroundTransparency = 1
+            ValLabel.Text = string.format("%.1f", default)
+            ValLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            ValLabel.Font = Enum.Font.GothamBold
+            ValLabel.TextSize = 14
+            ValLabel.Parent = SliderBG
 
             local currentValue = default
 
             local function move(input)
                 local pos = math.clamp((input.Position.X - SliderBG.AbsolutePosition.X) / SliderBG.AbsoluteSize.X, 0, 1)
-                SliderFill.Size = UDim2.new(pos, 0, 1, 0)
-                local value = math.floor(min + (max - min) * pos)
-                PercentLabel.Text = tostring(math.floor(pos * 100)) .. "%"
+                local value = min + (max - min) * pos
+                ValLabel.Text = string.format("%.1f", value)
                 currentValue = value
                 callback(value)
             end
 
             local function updateVisuals(val)
-                local pos = math.clamp((val-min)/(max-min), 0, 1)
-                SliderFill.Size = UDim2.new(pos, 0, 1, 0)
-                PercentLabel.Text = tostring(math.floor(pos * 100)) .. "%"
+                ValLabel.Text = string.format("%.1f", val)
             end
 
             if flag and Config[flag] ~= nil then
