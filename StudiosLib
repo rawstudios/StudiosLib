@@ -2,7 +2,8 @@ local StudiosLib = {}
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
-local LocalPlayer = game:GetService("Players").LocalPlayer
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
 local Mouse = LocalPlayer:GetMouse()
 
@@ -231,21 +232,20 @@ function StudiosLib:CreateWindow(title)
     PagesCorner.CornerRadius = UDim.new(0, 8)
     PagesCorner.Parent = Pages
 
-    -- Hide GUI Hint (Parented to ScreenGui to avoid clipping)
+    -- Hide GUI Hint (Parented to MainFrame so it follows dragging)
     local HideHint = Instance.new("TextLabel")
     HideHint.Size = UDim2.new(0, 200, 0, 20)
-    HideHint.Position = UDim2.new(0.5, -100, 0.5, 170)
+    HideHint.Position = UDim2.new(0.5, -100, 1, 10)
     HideHint.BackgroundTransparency = 1
     HideHint.Text = "Press 'H' For hide gui"
     HideHint.TextColor3 = Color3.fromRGB(255, 255, 255)
     HideHint.Font = Enum.Font.FredokaOne
     HideHint.TextSize = 18
-    HideHint.Parent = ScreenGui
+    HideHint.Parent = MainFrame
 
     UserInputService.InputBegan:Connect(function(input, gpe)
         if not gpe and input.KeyCode == Enum.KeyCode.H then
             MainFrame.Visible = not MainFrame.Visible
-            HideHint.Visible = MainFrame.Visible
         end
     end)
 
