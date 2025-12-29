@@ -3,7 +3,42 @@ local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
+local HttpService = game:GetService("HttpService")
 local Mouse = LocalPlayer:GetMouse()
+
+-- Config Management
+local Config = {}
+local ConfigFile = "StudiosLib_Config.json"
+
+local function SaveToFile()
+    if writefile then
+        local success, result = pcall(function()
+            return HttpService:JSONEncode(Config)
+        end)
+        if success then
+            writefile(ConfigFile, result)
+        end
+    end
+end
+
+local function LoadFromFile()
+    if readfile and isfile and isfile(ConfigFile) then
+        local success, result = pcall(function()
+            local content = readfile(ConfigFile)
+            return HttpService:JSONDecode(content)
+        end)
+        if success then
+            Config = result
+        end
+    end
+end
+
+LoadFromFile()
+
+function StudiosLib:SetConfigFile(name)
+    ConfigFile = name .. ".json"
+    LoadFromFile()
+end
 
 function StudiosLib:CreateWindow(title)
     -- Clean up old GUI
@@ -230,7 +265,12 @@ function StudiosLib:CreateWindow(title)
 
         local Elements = {}
 
-        function Elements:AddButton(text, callback)
+        function Elements:AddButton(text, flag, callback)
+            if type(flag) == "function" then
+                callback = flag
+                flag = nil
+            end
+
             local ButtonFrame = Instance.new("Frame")
             ButtonFrame.Size = UDim2.new(1, 0, 0, 30)
             ButtonFrame.BackgroundTransparency = 1
@@ -261,10 +301,25 @@ function StudiosLib:CreateWindow(title)
             BtnCorner.Parent = Btn
 
             local state = false
-            Btn.MouseButton1Click:Connect(function()
-                state = not state
+            
+            local function update()
                 Btn.BackgroundColor3 = state and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(200, 0, 0)
                 Btn.Text = state and "On" or "Off"
+            end
+
+            if flag and Config[flag] ~= nil then
+                state = Config[flag]
+                update()
+                task.spawn(callback, state)
+            end
+
+            Btn.MouseButton1Click:Connect(function()
+                state = not state
+                update()
+                if flag then
+                    Config[flag] = state
+                    SaveToFile()
+                end
                 callback(state)
             end)
         end
@@ -303,7 +358,12 @@ function StudiosLib:CreateWindow(title)
             Label.Parent = Page
         end
 
-        function Elements:AddToggle(text, default, callback)
+        function Elements:AddToggle(text, default, flag, callback)
+            if type(flag) == "function" then
+                callback = flag
+                flag = nil
+            end
+
             local ToggleFrame = Instance.new("Frame")
             ToggleFrame.Size = UDim2.new(1, 0, 0, 30)
             ToggleFrame.BackgroundTransparency = 1
@@ -344,16 +404,31 @@ function StudiosLib:CreateWindow(title)
                     Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
                 end
             end
+
+            if flag and Config[flag] ~= nil then
+                state = Config[flag]
+                update()
+                task.spawn(callback, state)
+            end
             update()
 
             Tgl.MouseButton1Click:Connect(function()
                 state = not state
                 update()
+                if flag then
+                    Config[flag] = state
+                    SaveToFile()
+                end
                 callback(state)
             end)
         end
 
-        function Elements:AddSlider(text, min, max, default, callback)
+        function Elements:AddSlider(text, min, max, default, flag, callback)
+            if type(flag) == "function" then
+                callback = flag
+                flag = nil
+            end
+
             local SliderFrame = Instance.new("Frame")
             SliderFrame.Size = UDim2.new(1, 0, 0, 30)
             SliderFrame.BackgroundTransparency = 1
@@ -399,12 +474,27 @@ function StudiosLib:CreateWindow(title)
             PercentLabel.TextSize = 14
             PercentLabel.Parent = SliderBG
 
+            local currentValue = default
+
             local function move(input)
                 local pos = math.clamp((input.Position.X - SliderBG.AbsolutePosition.X) / SliderBG.AbsoluteSize.X, 0, 1)
                 SliderFill.Size = UDim2.new(pos, 0, 1, 0)
                 local value = math.floor(min + (max - min) * pos)
                 PercentLabel.Text = tostring(math.floor(pos * 100)) .. "%"
+                currentValue = value
                 callback(value)
+            end
+
+            local function updateVisuals(val)
+                local pos = math.clamp((val-min)/(max-min), 0, 1)
+                SliderFill.Size = UDim2.new(pos, 0, 1, 0)
+                PercentLabel.Text = tostring(math.floor(pos * 100)) .. "%"
+            end
+
+            if flag and Config[flag] ~= nil then
+                currentValue = Config[flag]
+                updateVisuals(currentValue)
+                task.spawn(callback, currentValue)
             end
 
             local slddragging = false
@@ -418,6 +508,10 @@ function StudiosLib:CreateWindow(title)
             UserInputService.InputEnded:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     slddragging = false
+                    if flag then
+                        Config[flag] = currentValue
+                        SaveToFile()
+                    end
                 end
             end)
 
