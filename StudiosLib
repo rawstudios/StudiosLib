@@ -154,16 +154,16 @@ function StudiosLib:CreateWindow(title)
     PagesCorner.CornerRadius = UDim.new(0, 8)
     PagesCorner.Parent = Pages
 
-    -- Hide GUI Hint
+    -- Hide GUI Hint (Parented to ScreenGui to avoid clipping)
     local HideHint = Instance.new("TextLabel")
-    HideHint.Size = UDim2.new(1, 0, 0, 20)
-    HideHint.Position = UDim2.new(0, 0, 1, 10)
+    HideHint.Size = UDim2.new(0, 200, 0, 20)
+    HideHint.Position = UDim2.new(0.5, -100, 0.5, 170)
     HideHint.BackgroundTransparency = 1
     HideHint.Text = "Press 'H' For hide gui"
     HideHint.TextColor3 = Color3.fromRGB(255, 255, 255)
     HideHint.Font = Enum.Font.FredokaOne
     HideHint.TextSize = 18
-    HideHint.Parent = MainFrame
+    HideHint.Parent = ScreenGui
 
     UserInputService.InputBegan:Connect(function(input, gpe)
         if not gpe and input.KeyCode == Enum.KeyCode.H then
@@ -237,7 +237,7 @@ function StudiosLib:CreateWindow(title)
             ButtonFrame.Parent = Page
 
             local Label = Instance.new("TextLabel")
-            Label.Size = UDim2.new(0.6, 0, 1, 0)
+            Label.Size = UDim2.new(1, -60, 1, 0)
             Label.BackgroundTransparency = 1
             Label.Text = text
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -248,7 +248,7 @@ function StudiosLib:CreateWindow(title)
 
             local Btn = Instance.new("TextButton")
             Btn.Size = UDim2.new(0, 45, 0, 20)
-            Btn.Position = UDim2.new(0, 70, 0.5, -10)
+            Btn.Position = UDim2.new(1, -50, 0.5, -10)
             Btn.BackgroundColor3 = Color3.fromRGB(200, 0, 0) -- Vermelho Off
             Btn.Text = "Off"
             Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -267,6 +267,28 @@ function StudiosLib:CreateWindow(title)
                 Btn.Text = state and "On" or "Off"
                 callback(state)
             end)
+        end
+
+        function Elements:AddSimpleButton(text, callback)
+            local ButtonFrame = Instance.new("Frame")
+            ButtonFrame.Size = UDim2.new(1, 0, 0, 30)
+            ButtonFrame.BackgroundTransparency = 1
+            ButtonFrame.Parent = Page
+
+            local Btn = Instance.new("TextButton")
+            Btn.Size = UDim2.new(1, 0, 1, 0)
+            Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+            Btn.Text = text
+            Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Btn.Font = Enum.Font.FredokaOne
+            Btn.TextSize = 14
+            Btn.Parent = ButtonFrame
+
+            local BtnCorner = Instance.new("UICorner")
+            BtnCorner.CornerRadius = UDim.new(0, 6)
+            BtnCorner.Parent = Btn
+
+            Btn.MouseButton1Click:Connect(callback)
         end
 
         function Elements:AddLabel(text)
@@ -288,7 +310,7 @@ function StudiosLib:CreateWindow(title)
             ToggleFrame.Parent = Page
 
             local Label = Instance.new("TextLabel")
-            Label.Size = UDim2.new(0.6, 0, 1, 0)
+            Label.Size = UDim2.new(1, -40, 1, 0)
             Label.BackgroundTransparency = 1
             Label.Text = text
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -299,7 +321,7 @@ function StudiosLib:CreateWindow(title)
 
             local Tgl = Instance.new("TextButton")
             Tgl.Size = UDim2.new(0, 22, 0, 22)
-            Tgl.Position = UDim2.new(0, 95, 0.5, -11)
+            Tgl.Position = UDim2.new(1, -30, 0.5, -11)
             Tgl.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             Tgl.Text = "X"
             Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
